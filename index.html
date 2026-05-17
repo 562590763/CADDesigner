@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CADDesigner: Conceptual CAD Model Generation with a General-Purpose Agent">
+  <meta name="keywords" content="CAD, CAD code generation, ReAct agent, multimodal input, large language models">
+  <meta name="citation_title" content="CADDesigner: Conceptual CAD Model Generation with a General-Purpose Agent">
+  <meta name="citation_author" content="Fan, Fengxiao">
+  <meta name="citation_author" content="Ni, Jingzhe">
+  <meta name="citation_author" content="Yin, Xiaolong">
+  <meta name="citation_author" content="Wang, Sirui">
+  <meta name="citation_author" content="Lu, Xingyu">
+  <meta name="citation_author" content="Zou, Qiang">
+  <meta name="citation_author" content="Tong, Ruofeng">
+  <meta name="citation_author" content="Tang, Min">
+  <meta name="citation_author" content="Du, Peng">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_pdf_url" content="./files/CADDesigner.pdf">
+  <meta name="citation_arxiv_id" content="2508.01031">
+  <title>CADDesigner: Conceptual CAD Model Generation with a General-Purpose Agent</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <style>
+    :root {
+      --text: #202124;
+      --muted: #5f6368;
+      --line: #e5e7eb;
+      --button: #363636;
+      --link: #3273dc;
+      --content-width: 980px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      padding: 3rem 1.5rem 1.5rem;
+    }
+
+    .section {
+      padding: 3rem 1.5rem;
+    }
+
+    .section.compact {
+      padding-top: 1.5rem;
+    }
+
+    .container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .wide-container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .teaser-container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .has-text-centered {
+      text-align: center;
+    }
+
+    .title {
+      margin: 0 0 1rem;
+      font-weight: 700;
+      line-height: 1.18;
+      letter-spacing: 0;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .title.is-1 {
+      font-size: 36px;
+    }
+
+    .title.is-2 {
+      font-size: 28px;
+    }
+
+    .publication-authors {
+      font-size: 19px;
+      line-height: 1.55;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .author-block {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .affiliation {
+      margin-top: 0.75rem;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .link-block {
+      display: inline-block;
+      margin: 0.35rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      min-height: 42px;
+      padding: 0 1rem;
+      border-radius: 999px;
+      background: var(--button);
+      color: #ffffff;
+      font-weight: 600;
+      text-decoration: none;
+      border: 0;
+    }
+
+    .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1rem;
+      height: 1rem;
+      line-height: 1;
+    }
+
+    .button:hover {
+      color: #ffffff;
+      background: #1f2937;
+      text-decoration: none;
+    }
+
+    .button.disabled {
+      color: #5f6368;
+      background: #e8eaed;
+      cursor: default;
+    }
+
+    .button.disabled:hover {
+      color: #5f6368;
+      background: #e8eaed;
+    }
+
+    .teaser {
+      padding-top: 0;
+    }
+
+    .figure img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .caption {
+      max-width: var(--content-width);
+      margin: 0.85rem auto 0;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.55;
+      text-align: justify;
+    }
+
+    .abstract {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      text-align: justify;
+      font-size: 16px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      background: #f5f5f5;
+      border-radius: 6px;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .bibtex-content {
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .bibtex-content .title {
+      margin-bottom: 0.5rem;
+    }
+
+    .bibtex-content p {
+      margin: 0 0 0.75rem;
+      text-align: left;
+    }
+
+    footer {
+      padding: 2rem 1.5rem 3rem;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .hero {
+        padding-top: 2rem;
+      }
+
+      .title.is-1 {
+        font-size: 29px;
+      }
+
+      .title.is-2 {
+        font-size: 25px;
+      }
+
+      .publication-authors {
+        font-size: 17px;
+      }
+
+      .affiliation,
+      .abstract,
+      .caption {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="hero">
+    <div class="container has-text-centered">
+      <h1 class="title is-1">CADDesigner: Conceptual CAD Model Generation with a General-Purpose Agent</h1>
+
+      <div class="publication-authors">
+        <span class="author-block">Fengxiao Fan<sup>*</sup>,</span>
+        <span class="author-block">Jingzhe Ni<sup>*</sup>,</span>
+        <span class="author-block">Xiaolong Yin,</span>
+        <span class="author-block">Sirui Wang,</span>
+        <span class="author-block">Xingyu Lu,</span>
+        <span class="author-block">Qiang Zou,</span>
+        <span class="author-block">Ruofeng Tong,</span>
+        <span class="author-block">Min Tang,</span>
+        <span class="author-block">Peng Du<sup>&dagger;</sup></span>
+      </div>
+
+      <div class="affiliation">
+        Zhejiang University, China<br>
+        <sup>*</sup>Equal contribution &nbsp;&nbsp; <sup>&dagger;</sup>Corresponding author
+      </div>
+
+      <div style="margin-top: 1.2rem;">
+        <span class="link-block"><a class="button" href="./files/CADDesigner.pdf" aria-label="Paper PDF">
+          <span class="icon"><i class="fas fa-file-pdf"></i></span>
+          <span>Paper</span>
+        </a></span>
+        <span class="link-block"><a class="button" href="https://arxiv.org/abs/2508.01031" aria-label="arXiv paper">
+          <span class="icon"><i class="ai ai-arxiv"></i></span>
+          <span>arXiv</span>
+        </a></span>
+        <span class="link-block"><a class="button disabled" aria-label="Code coming soon">
+          <span class="icon"><i class="fab fa-github"></i></span>
+          <span>Coming soon</span>
+        </a></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="container">
+      <h2 class="title is-2 has-text-centered">Abstract</h2>
+      <p class="abstract">
+        Computer-Aided Design (CAD) is widely used for conceptual design and parametric 3D modeling, but typically requires a high level of expertise from designers. To lower the entry barrier and facilitate early-stage CAD modeling, we present CADDesigner, an LLM-powered agent for conceptual CAD design. The agent accepts both textual descriptions and sketches as input, engaging in interactive dialogue with users to refine and clarify design requirements through comprehensive requirement analysis. Built upon a novel Explicit Context Imperative Paradigm (ECIP), the agent generates high-quality CAD modeling code. During the generation process, the agent incorporates iterative visual feedback to improve model quality. Generated design cases can be stored in a structured knowledge base, providing a mechanism for continual knowledge accumulation and future improvement of code generation. Experimental results show that CADDesigner achieves competitive performance and outperforms representative baselines on conceptual CAD model generation tasks.
+      </p>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="teaser-container figure">
+      <img src="./files/figure1.png" alt="CADDesigner generated CAD models">
+      <p class="caption">
+        CADDesigner supports multimodal input and a broad range of CAD operations, including extrusion, revolution, fillet/chamfer, sweeping, lofting, and the creation of standard components such as flanges and screws.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container has-text-centered">
+      <h2 class="title is-2">Agent Architecture</h2>
+      <div class="figure">
+        <img src="./files/figure2.png" alt="CADDesigner agent architecture">
+        <p class="caption">
+          CADDesigner follows a ReAct-style agent workflow for conceptual CAD modeling. It first refines text or sketch-text input into detailed design requirements, then generates executable CAD modeling code with the Explicit Context Imperative Paradigm (ECIP), which makes modeling context and operation state explicit. After execution, the agent checks symbolic logs and rendered visual feedback, revises the code when inconsistencies are found, and stores successful cases in a structured knowledge base for future generation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bibtex">
+    <div class="bibtex-content">
+      <h2 class="title is-2">BibTeX</h2>
+      <p>If you find this work useful, please cite:</p>
+      <pre><code>@article{fan2025caddesigner,
+  author    = {Fengxiao Fan and Jingzhe Ni and Xiaolong Yin and Sirui Wang and Xingyu Lu and Qiang Zou and Ruofeng Tong and Min Tang and Peng Du},
+  title     = {{CADDesigner}: Conceptual CAD Model Generation with a General-Purpose Agent},
+  journal   = {arXiv preprint arXiv:2508.01031},
+  year      = {2025}
+}</code></pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="title is-2 has-text-centered">Acknowledgements</h2>
+      <p class="abstract">This work was supported by the Leading Goose R&amp; D Program of Zhejiang under Grant No. 2024C01103.</p>
+    </div>
+  </section>
+
+  <footer>
+    CADDesigner project page.
+  </footer>
+</body>
+</html>
